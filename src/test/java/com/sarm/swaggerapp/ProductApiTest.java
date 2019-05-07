@@ -3,6 +3,7 @@ package com.sarm.swaggerapp;
 import com.sarm.swaggerapp.controllers.ProductApiController;
 import com.sarm.swaggerapp.controllers.requests.ProductAddRequest;
 import com.sarm.swaggerapp.controllers.requests.ProductUpdateRequest;
+import com.sarm.swaggerapp.controllers.responses.ApiResponseMessage;
 import com.sarm.swaggerapp.controllers.responses.ProductNotFoundError;
 import com.sarm.swaggerapp.controllers.responses.ProductResponse;
 import com.sarm.swaggerapp.controllers.responses.ProductValidationError;
@@ -66,11 +67,11 @@ public class ProductApiTest {
 
         ProductAddRequest productAddRequest = new ProductAddRequest();
         productAddRequest.setText("MyproductPost");
-        ResponseEntity<? extends ProductResponse> responseEntityPost = productApiController.productPost(productAddRequest,httpRequest);
+        ResponseEntity<? extends ApiResponseMessage> responseEntityPost = productApiController.productPost(productAddRequest,httpRequest);
         assertThat(responseEntityPost.getBody(), instanceOf(Product.class)  );
         assertEquals(responseEntityPost.getStatusCode(), HttpStatus.OK);
 
-        ResponseEntity<? extends ProductResponse> responseEntityGet = productApiController.productIdGet("1",httpRequest);
+        ResponseEntity<? extends ApiResponseMessage> responseEntityGet = productApiController.productIdGet("1",httpRequest);
         assertThat(responseEntityGet.getBody(), instanceOf(Product.class)  );
         assertEquals(((Product)responseEntityGet.getBody()).getText().trim(),"MyproductPost");
         assertEquals(responseEntityGet.getStatusCode(), HttpStatus.OK);
@@ -78,7 +79,7 @@ public class ProductApiTest {
 
         ProductUpdateRequest productUpdateRequest = new ProductUpdateRequest();
         productUpdateRequest.setIsCompleted(true);
-        ResponseEntity<? extends ProductResponse> responseEntityPatch = productApiController.productIdPatch("1",productUpdateRequest,httpRequest);
+        ResponseEntity<? extends ApiResponseMessage> responseEntityPatch = productApiController.productIdPatch("1",productUpdateRequest,httpRequest);
         assertThat(responseEntityGet.getBody(), instanceOf(Product.class)  );
         assertEquals(((Product)responseEntityPatch.getBody()).getText().trim(),"MyproductPost");
         assertEquals(((Product)responseEntityPatch.getBody()).isIsCompleted(),true);
@@ -91,7 +92,7 @@ public class ProductApiTest {
      */
     @Test
     public void testTodoNotFoundError(){
-        ResponseEntity<? extends ProductResponse> responseEntityGet = productApiController.productIdGet("1",httpRequest);
+        ResponseEntity<? extends ApiResponseMessage> responseEntityGet = productApiController.productIdGet("1",httpRequest);
         assertThat(responseEntityGet.getBody(), instanceOf(ProductNotFoundError.class)  );
         assertEquals(responseEntityGet.getStatusCode(), HttpStatus.NOT_FOUND);
     }
@@ -101,14 +102,14 @@ public class ProductApiTest {
      */
     @Test
     public void testTodoNotValid(){
-        ResponseEntity<? extends ProductResponse> responseEntityGet = productApiController.productIdGet("1e",httpRequest);
+        ResponseEntity<? extends ApiResponseMessage> responseEntityGet = productApiController.productIdGet("1e",httpRequest);
         assertThat(responseEntityGet.getBody(), instanceOf(ProductValidationError.class)  );
         assertEquals(responseEntityGet.getStatusCode(), HttpStatus.BAD_REQUEST);
 
 
         ProductAddRequest toDoItemAddRequest = new ProductAddRequest();
         toDoItemAddRequest.setText("    ");
-        ResponseEntity<? extends ProductResponse> responseEntityPost = productApiController.productPost(toDoItemAddRequest,httpRequest);
+        ResponseEntity<? extends ApiResponseMessage> responseEntityPost = productApiController.productPost(toDoItemAddRequest,httpRequest);
         assertThat(responseEntityPost.getBody(), instanceOf(ProductValidationError.class)  );
         assertEquals(((ProductValidationError)responseEntityPost.getBody()).getDetails().get(0).getParam(),"text");
         assertEquals(responseEntityPost.getStatusCode(), HttpStatus.BAD_REQUEST);

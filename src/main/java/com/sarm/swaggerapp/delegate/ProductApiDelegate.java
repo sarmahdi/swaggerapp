@@ -4,7 +4,6 @@ import java.math.BigDecimal;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.sarm.swaggerapp.controllers.responses.ApiResponseMessage;
-import com.sarm.swaggerapp.controllers.responses.ProductResponse;
 import com.sarm.swaggerapp.controllers.ProductApi;
 import com.sarm.swaggerapp.controllers.ProductApiController;
 import com.sarm.swaggerapp.controllers.responses.InlineResponse200;
@@ -48,8 +47,9 @@ public interface ProductApiDelegate {
 
     /**
      * @see ProductApi#productIdGet
+     * @return
      */
-    default ResponseEntity<? extends ProductResponse>  productIdGet( String  id) {
+    default ResponseEntity<? extends ApiResponseMessage> productIdGet(String  id) {
         if(getObjectMapper().isPresent() && getAcceptHeader().isPresent()) {
             if (getAcceptHeader().get().contains("application/json")) {
                 try {
@@ -67,9 +67,10 @@ public interface ProductApiDelegate {
 
     /**
      * @see ProductApi#productIdPatch
+     * @return
      */
-    default ResponseEntity<? extends ProductResponse> productIdPatch(String  id,
-                                                                     ProductUpdateRequest  body) {
+    default ResponseEntity<? extends ApiResponseMessage> productIdPatch(String  id,
+                                                                        ProductUpdateRequest  body) {
         if(getObjectMapper().isPresent() && getAcceptHeader().isPresent()) {
             if (getAcceptHeader().get().contains("application/json")) {
                 try {
@@ -88,8 +89,8 @@ public interface ProductApiDelegate {
     /**
      * @see ProductApi#productListGet
      */
-    default ResponseEntity<? extends ApiResponseMessage>  productListGet(Optional<BigDecimal>  startindex,
-                                                                         Optional<BigDecimal>  pagelength) {
+    default ResponseEntity<? extends ApiResponseMessage>  productListGet(Optional<String>  startindex,
+                                                                         Optional<String>  pagelength) {
         if(getObjectMapper().isPresent() && getAcceptHeader().isPresent()) {
             if (getAcceptHeader().get().contains("application/json")) {
                 try {
@@ -107,8 +108,9 @@ public interface ProductApiDelegate {
 
     /**
      * @see ProductApi#productPost
+     * @return
      */
-    default ResponseEntity<? extends ProductResponse>  productPost( ProductAddRequest  body) {
+    default ResponseEntity<? extends ApiResponseMessage> productPost(ProductAddRequest  body) {
         if(getObjectMapper().isPresent() && getAcceptHeader().isPresent()) {
             if (getAcceptHeader().get().contains("application/json")) {
                 try {

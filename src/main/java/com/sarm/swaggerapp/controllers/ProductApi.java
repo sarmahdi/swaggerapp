@@ -7,14 +7,11 @@ package com.sarm.swaggerapp.controllers;
 
 import java.math.BigDecimal;
 
-import com.sarm.swaggerapp.controllers.responses.ProductResponse;
+import com.sarm.swaggerapp.controllers.responses.*;
 import com.sarm.swaggerapp.delegate.ProductApiDelegate;
-import com.sarm.swaggerapp.controllers.responses.InlineResponse200;
 import com.sarm.swaggerapp.domain.Product;
 import com.sarm.swaggerapp.controllers.requests.ProductAddRequest;
-import com.sarm.swaggerapp.controllers.responses.ProductNotFoundError;
 import com.sarm.swaggerapp.controllers.requests.ProductUpdateRequest;
-import com.sarm.swaggerapp.controllers.responses.ProductValidationError;
 import io.swagger.annotations.*;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -41,7 +38,7 @@ public interface ProductApi {
     @RequestMapping(value = "/product/{id}",
         produces = { "application/json" }, 
         method = RequestMethod.GET)
-    default ResponseEntity<? extends ProductResponse>  productIdGet(@ApiParam(value = "id",required=true) @PathVariable("id") String id, HttpServletRequest request) {
+    default ResponseEntity<? extends ApiResponseMessage> productIdGet(@ApiParam(value = "id",required=true) @PathVariable("id") String id, HttpServletRequest request) {
         getDelegate().setRequest(request);
         return getDelegate().productIdGet(id);
     }
@@ -56,7 +53,7 @@ public interface ProductApi {
         produces = { "application/json" }, 
         consumes = { "application/json" },
         method = RequestMethod.PATCH)
-    default ResponseEntity<? extends ProductResponse>  productIdPatch(@ApiParam(value = "id",required=true) @PathVariable("id") String id,@ApiParam(value = "" ,required=true )  @Valid @RequestBody ProductUpdateRequest body, HttpServletRequest request) {
+    default ResponseEntity<? extends ApiResponseMessage> productIdPatch(@ApiParam(value = "id",required=true) @PathVariable("id") String id, @ApiParam(value = "" ,required=true )  @Valid @RequestBody ProductUpdateRequest body, HttpServletRequest request) {
         getDelegate().setRequest(request);
         return getDelegate().productIdPatch(id, body);
     }
@@ -70,7 +67,7 @@ public interface ProductApi {
     @RequestMapping(value = "/product/list/",
         produces = { "application/json" }, 
         method = RequestMethod.GET)
-    default ResponseEntity<InlineResponse200> productListGet(@ApiParam(value = "Start index for paging") @Valid @RequestParam(value = "startindex", required = false) Optional<String> startindex,@ApiParam(value = "Number of records to return") @Valid @RequestParam(value = "pagelength", required = false) Optional<BigDecimal> pagelength, HttpServletRequest request) {
+    default ResponseEntity<? extends ApiResponseMessage> productListGet(@ApiParam(value = "Start index for paging") @Valid @RequestParam(value = "startindex", required = false) Optional<String> startindex, @ApiParam(value = "Number of records to return") @Valid @RequestParam(value = "pagelength", required = false) Optional<String> pagelength, HttpServletRequest request) {
         getDelegate().setRequest(request);
         return getDelegate().productListGet(startindex, pagelength);
     }
@@ -84,7 +81,7 @@ public interface ProductApi {
         produces = { "application/json" }, 
         consumes = { "application/json" },
         method = RequestMethod.POST)
-    default ResponseEntity<? extends ProductResponse> productPost(@ApiParam(value = "" ,required=true )  @Valid @RequestBody ProductAddRequest body, HttpServletRequest request) {
+    default ResponseEntity<? extends ApiResponseMessage> productPost(@ApiParam(value = "" ,required=true )  @Valid @RequestBody ProductAddRequest body, HttpServletRequest request) {
         getDelegate().setRequest(request);
         return getDelegate().productPost(body);
     }

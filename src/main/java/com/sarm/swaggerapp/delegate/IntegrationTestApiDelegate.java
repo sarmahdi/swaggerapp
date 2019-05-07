@@ -55,4 +55,5 @@ public interface IntegrationTestApiDelegate {
         return new ResponseEntity<>(HttpStatus.NOT_IMPLEMENTED);
     }
 
+    void setRequest(HttpServletRequest request);
 }

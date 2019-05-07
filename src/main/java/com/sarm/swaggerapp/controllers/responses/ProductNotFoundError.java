@@ -15,7 +15,7 @@ import javax.validation.Valid;
 @Validated
 @javax.annotation.Generated(value = "io.swagger.codegen.languages.SpringCodegen", date = "2019-05-06T10:53:59.975Z")
 
-public class ProductNotFoundError  implements Serializable {
+public class ProductNotFoundError extends ApiResponseMessage  implements Serializable {
   private static final long serialVersionUID = 1L;
 
   @JsonProperty("details")
